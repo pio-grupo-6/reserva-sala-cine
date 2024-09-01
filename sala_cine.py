@@ -3,7 +3,6 @@ import pickle
 
 # Configuración inicial
 ARCHIVO_SALAS = 'salas.pkl'
-ARCHIVO_SALAS_EXTERNO = 'salas_externo.txt'
 ARCHIVO_SALAS_TEXTO = 'salas_convertido.txt'
 
 def guardar_datos(salas):
