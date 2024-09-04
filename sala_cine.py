@@ -15,28 +15,18 @@ def cargar_datos():
             return pickle.load(file)
     return {}
 
-def carga_sala_adicional():
-    if not os.path.exists(ARCHIVO_SALAS_EXTERNO):
-        print(f"No se encontró el archivo '{ARCHIVO_SALAS_EXTERNO}'.")
-        return None
-    
+def guardar_datos_en_texto():
+    salas = cargar_datos()
     try:
-        with open(ARCHIVO_SALAS_EXTERNO, 'r') as file:
-            # Leer líneas del archivo
-            lines = file.readlines()
-
-        if not lines:
-            print("El archivo está vacío.")
-            return None
-        
-        # Construir la sala a partir de las líneas leídas
-        sala = [line.strip().split() for line in lines]
-        
-        return sala
-    
+        with open(ARCHIVO_SALAS_TEXTO, 'w') as file:
+            for nombre_sala, sala in salas.items():
+                file.write(f"Sala: {nombre_sala}\n")
+                for fila in sala:
+                    file.write(' '.join(f"{asiento}" for asiento in fila) + '\n')
+                file.write('\n')
+        print(f"Datos guardados en '{ARCHIVO_SALAS_TEXTO}' exitosamente.")
     except Exception as e:
-        print(f"Error al cargar la sala desde el archivo: {e}")
-        return None
+        print(f"Error al guardar los datos en el archivo de texto: {e}")
 
 def crear_sala():
     salas = cargar_datos()
@@ -96,19 +86,6 @@ def asignar_puesto():
             print("El puesto no está disponible o ya ha sido reservado.")
     else:
         print("Sala no encontrada.")
-
-def guardar_datos_en_texto():
-    salas = cargar_datos()
-    try:
-        with open(ARCHIVO_SALAS_TEXTO, 'w') as file:
-            for nombre_sala, sala in salas.items():
-                file.write(f"Sala: {nombre_sala}\n")
-                for fila in sala:
-                    file.write(' '.join(f"{asiento}" for asiento in fila) + '\n')
-                file.write('\n')
-        print(f"Datos guardados en '{ARCHIVO_SALAS_TEXTO}' exitosamente.")
-    except Exception as e:
-        print(f"Error al guardar los datos en el archivo de texto: {e}")
 
 def cargar_sala():
     guardar_datos_en_texto()  # Guarda los datos en el archivo de texto
